@@ -23,6 +23,6 @@ export class CatsController {
 
   @Post('createWithDto')
   async createWithDto(@Body() createCatDto: CreateCatDto) {
-    return `This action creates a cat with the DRO ${createCatDto}`;
+    return `This action creates a cat with the DTO ${JSON.stringify(createCatDto)}`;
   }
 }
