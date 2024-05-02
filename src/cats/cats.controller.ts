@@ -1,11 +1,15 @@
-import { Body, Controller, Get, Header, Param, ParseIntPipe, Post, Req, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Header, Param, ParseIntPipe, Post, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CreateCatDto, createCatSchema } from './dto/create-cat.dto';
 import { CatsService } from './cats.service';
 import { Cat } from './interfaces/cat.interface';
 import { ZodValidationPipe } from 'src/zod-validation/zod-validation.pipe';
 import { MyValidationPipe } from 'src/my-validation/my-validation.pipe';
+import { RolesGuard } from 'src/roles/roles.guard';
+import { Roles } from 'src/roles/roles.decorator';
+import { Role } from 'src/roles/roles.enum';
 
 @Controller('cats')
+@UseGuards(RolesGuard)
 export class CatsController {
   constructor(private catsService: CatsService) {}
   @Post()
@@ -40,6 +44,12 @@ export class CatsController {
   @Post('createWithDto3')
   @UsePipes(new ValidationPipe({ transform: true }))
   async createWithDto3(@Body() createCatDto: CreateCatDto) {
+    return this.catsService.create(createCatDto);
+  }
+
+  @Post('createWithDto4')
+  @Roles(Role.Admin)
+  async createWithDto4(@Body() createCatDto: CreateCatDto) {
     return this.catsService.create(createCatDto);
   }
 }
