@@ -7,6 +7,7 @@ import { CatsModule } from './cats/cats.module';
 import { logger } from './common/middleware/logger.middleware';
 import helmet from 'helmet';
 import { LoggingInterceptor } from './logging/logging.interceptor';
+import { TransformInterceptor } from './transform/transform.interceptor';
 
 const LoggingInterceptorProvider: Provider =
 {
@@ -14,10 +15,16 @@ const LoggingInterceptorProvider: Provider =
   useClass: LoggingInterceptor,
 }
 
+const TransformInterceptorProvider: Provider =
+{
+  provide: APP_INTERCEPTOR,
+  useClass: TransformInterceptor,
+}
+
 @Module({
   imports: [DogsModule, CatsModule],
   controllers: [AppController],
-  providers: [AppService, LoggingInterceptorProvider],
+  providers: [AppService, LoggingInterceptorProvider, TransformInterceptorProvider],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
