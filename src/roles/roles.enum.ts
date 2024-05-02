@@ -3,7 +3,7 @@ export enum Role {
   Admin = 'admin',
 }
 
-class User {
+export class User {
   name: String;
   roles: Role[];
 }
