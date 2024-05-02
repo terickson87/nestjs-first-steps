@@ -1,15 +1,23 @@
-import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, Provider, RequestMethod } from '@nestjs/common';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DogsModule } from './dogs/dogs.module';
 import { CatsModule } from './cats/cats.module';
 import { logger } from './common/middleware/logger.middleware';
 import helmet from 'helmet';
+import { LoggingInterceptor } from './logging/logging.interceptor';
+
+const LoggingInterceptorProvider: Provider =
+{
+  provide: APP_INTERCEPTOR,
+  useClass: LoggingInterceptor,
+}
 
 @Module({
   imports: [DogsModule, CatsModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, LoggingInterceptorProvider],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

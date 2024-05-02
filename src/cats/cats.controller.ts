@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Header, Param, ParseIntPipe, Post, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Header, Param, ParseIntPipe, Post, Req, UseGuards, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CreateCatDto, createCatSchema } from './dto/create-cat.dto';
 import { CatsService } from './cats.service';
 import { Cat } from './interfaces/cat.interface';
@@ -7,6 +7,7 @@ import { MyValidationPipe } from 'src/my-validation/my-validation.pipe';
 import { RolesGuard } from 'src/roles/roles.guard';
 import { Roles } from 'src/roles/roles.decorator';
 import { Role } from 'src/roles/roles.enum';
+import { LoggingInterceptor } from 'src/logging/logging.interceptor';
 
 @Controller('cats')
 @UseGuards(RolesGuard)
