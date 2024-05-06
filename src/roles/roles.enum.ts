@@ -4,6 +4,6 @@ export enum Role {
 }
 
 export class User {
-  name: String;
+  name: string;
   roles: Role[];
 }

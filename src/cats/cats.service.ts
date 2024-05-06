@@ -3,7 +3,6 @@ import { Cat } from './interfaces/cat.interface';
 import { CreateCatDto } from './dto/create-cat.dto';
 import e from 'express';
 
-
 @Injectable()
 export class CatsService {
   private readonly cats: Cat[] = [];
@@ -11,8 +10,8 @@ export class CatsService {
   create(catDto: CreateCatDto) {
     const cat: Cat = {
       id: this.cats.length,
-      ...catDto
-    }
+      ...catDto,
+    };
     this.cats.push(cat);
   }
 
@@ -25,7 +24,7 @@ export class CatsService {
     if (cat != undefined) {
       return cat;
     } else {
-      throw new NotFoundException(`Cat with id #${id} was not found.`)
+      throw new NotFoundException(`Cat with id #${id} was not found.`);
     }
   }
 }

@@ -1,4 +1,10 @@
-import { MiddlewareConsumer, Module, NestModule, Provider, RequestMethod } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  Provider,
+  RequestMethod,
+} from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -9,28 +15,29 @@ import helmet from 'helmet';
 import { LoggingInterceptor } from './logging/logging.interceptor';
 import { TransformInterceptor } from './transform/transform.interceptor';
 
-const LoggingInterceptorProvider: Provider =
-{
+const LoggingInterceptorProvider: Provider = {
   provide: APP_INTERCEPTOR,
   useClass: LoggingInterceptor,
-}
+};
 
-const TransformInterceptorProvider: Provider =
-{
+const TransformInterceptorProvider: Provider = {
   provide: APP_INTERCEPTOR,
   useClass: TransformInterceptor,
-}
+};
 
 @Module({
   imports: [DogsModule, CatsModule],
   controllers: [AppController],
-  providers: [AppService, LoggingInterceptorProvider, TransformInterceptorProvider],
+  providers: [
+    AppService,
+    LoggingInterceptorProvider,
+    TransformInterceptorProvider,
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-    .apply(helmet(),logger)
-    .forRoutes({ path: 'cats', method: RequestMethod.GET});
+      .apply(helmet(), logger)
+      .forRoutes({ path: 'cats', method: RequestMethod.GET });
   }
-  
 }

@@ -1,4 +1,17 @@
-import { Body, Controller, Get, Header, Param, ParseIntPipe, Post, Req, UseGuards, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Header,
+  Param,
+  ParseIntPipe,
+  Post,
+  Req,
+  UseGuards,
+  UseInterceptors,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { CreateCatDto, createCatSchema } from './dto/create-cat.dto';
 import { CatsService } from './cats.service';
 import { Cat } from './interfaces/cat.interface';
@@ -14,12 +27,10 @@ import { LoggingInterceptor } from 'src/logging/logging.interceptor';
 export class CatsController {
   constructor(private catsService: CatsService) {}
   @Post()
-  async create(
-    @Body(new MyValidationPipe()) createCatDto: CreateCatDto,
-  ) {
+  async create(@Body(new MyValidationPipe()) createCatDto: CreateCatDto) {
     this.catsService.create(createCatDto);
   }
-  
+
   @Get()
   async findAll(): Promise<Cat[]> {
     return this.catsService.findAll();
